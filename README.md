@@ -1,2 +1,2 @@
 # LiterAlura
-Side Project - CLI de API para obtener información sobre libros
+Side Project - CLI/API para obtener información sobre libros
