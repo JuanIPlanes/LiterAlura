@@ -7,10 +7,9 @@ import com.aluraChallenge.LiterAlura.service.ConsumeAPI;
 import com.aluraChallenge.LiterAlura.service.Converter;
 import com.aluraChallenge.LiterAlura.service.IConverter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.security.InvalidParameterException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Cli {
     private final Scanner teclado = new Scanner(System.in);
@@ -44,11 +43,25 @@ public class Cli {
                 case 1:
                     firstRequest();
                     break;
+                case 2:
+                    System.out.println("Escribe la abreviación de los idiomas que deseas buscar:\n"+"""
+                            {
+                            'en': english,
+                            'es': español,
+                            'fr': french,
+                            'ch': chinese
+                            }""");
+                    var lang = teclado.nextLine().split(",");
+                    if(lang.length==0)
+                        throw new InvalidParameterException("missing languages");
+                    findByLanguage(lang);
+
+
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
                 default:
-                    System.out.println("Opc ión inválida");
+                    System.out.println("Opción inválida");
             }
         }
     }
@@ -59,6 +72,14 @@ public class Cli {
         data.results().forEach(book->{
             books.add(Book.fromBookData(book));
         });
-        System.out.println(books.getFirst().toString());
+    }
+
+    private void findByLanguage(List<String> languages) {
+        var json = consumeApi.getData(URL_BASE+"books/?languages="+languages.stream().map(Enum::name).collect(Collectors.joining()));
+        GetBooksData data = converter.jsonStringToModel(json, GetBooksData.class);
+        data.results().forEach(book->{
+            books.add(Book.fromBookData(book));
+        });
+    books.forEach(book -> System.out.printf(book.toString()));
     }
 }

@@ -29,13 +29,13 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", authors=" + authors.stream().map(Author::toString).collect(Collectors.joining()) +
-                ", languages=" + languages.stream().map(Enum::name).collect(Collectors.joining()) +
-                ", downloadCount=" + downloadCount +
-                ", apiId=" + apiId +
+        return "\n\nBook{" +
+                "\nid=" + id +
+                ",\n title='" + title + '\'' +
+                ",\n authors=" + authors.stream().map(Author::toString).collect(Collectors.joining()) +
+                ",\n languages=" + languages.stream().map(Enum::name).collect(Collectors.joining()) +
+                ",\n downloadCount=" + downloadCount +
+                ",\n apiId=" + apiId +
                 '}';
     }
 
